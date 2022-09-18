@@ -26,16 +26,15 @@ resource "aws_instance" "web_server" {
 
   user_data = <<-EOF
     #!/bin/bash
-    sudo su
     yum update -y
-    yum install -y httpd.x86_64
+    yum install -y httpd
     systemctl start httpd.service
     systemctl enable httpd.service
     EC2_AVAIL_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
-    echo "Hello World from $(hostname -f) in AZ $EC2_AVAIL_ZONE" > /var/www/html/index.html
+    echo "<h1>Hello World From at at $(hostname -f) in AZ <b>$EC2_AVAIL_ZONE</b> </h1>" > /var/www/html/index.html
         EOF
 
   tags = {
-    Name = "HelloWorld_${count.index + 1}"
+    Name = "Instance_${count.index + 1}"
   }
 }
