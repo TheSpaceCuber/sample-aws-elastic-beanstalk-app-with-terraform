@@ -4,6 +4,21 @@
 
 Deploys a multi az setup in a Virtual Private Cloud (VPC), each availability zone (AZ) containing only a single public subnet and a single ec2 instance.
 
+## Usage
+- Install [Terraform](https://www.terraform.io/)
+- Install [AWS CLI](https://aws.amazon.com/cli/)
+- Create an AWS account and a CLI user in IAM
+
+```sh
+# configure credentials
+aws configure
+
+cd terraform/
+terraform apply
+```
+
+The load balancer endpoint will be output once all resources have been provisioned.
+
 ## Components
 - VPC: An isolated private network boundary that is secure and hosted within AWS where you can provision resources inside.
 
@@ -26,4 +41,7 @@ Deploys a multi az setup in a Virtual Private Cloud (VPC), each availability zon
 
 ## Troubles faced
 1. Attempts to deploy a React app (static assets only) on EC2 failed due to an issue where the load balance distributes the calls wrongly due to `static/js/mainSOMEHASH.js` having a unique hash, resulting in error 404. See issue [here](https://stackoverflow.com/questions/73599420/how-to-update-react-apps-behind-an-aws-load-balancer-without-404-due-to-changing). A fix would be to deploy a cloudfront distribution, but that defeats the purpose of the architecture since the static files will that be cached in a S3 bucket. If somehow there is a fix for this issue, the script [here](https://github.com/TheSpaceCuber/react-hooks/blob/main/user_data.sh) will serve as ec2 user data to load up an instance properly.
+
+## Note
+No video was added because `terraform apply` is all that is needed.
  
